@@ -25,6 +25,7 @@ import {
 import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { AlertModal } from "@/components/modals/alert-modal";
+import { ApiAlert } from "@/components/ui/api-alert";
 
 
 interface SettingsFormProps {
@@ -66,7 +67,7 @@ const onSubmit = async (data: SettingsFormValues) => {
 const onDelete = async () => {
     try {
         setLoading(true)
-        await axios.delete(`api/stores/${params.storeId}`)
+        await axios.delete(`/api/stores/${params.storeId}`)
         router.refresh();
         router.push("/")
         toast.success("Store deleted.");
@@ -123,6 +124,12 @@ const onDelete = async () => {
        </Button>
         </form>
         </Form>
+        <Separator />
+        <ApiAlert 
+        title="NEXT_PUBLIC_API_URL" 
+        description="test-desc" 
+        variant="public" 
+        />
         </>
     );
 };

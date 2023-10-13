@@ -28,12 +28,11 @@ export default async function DashboardLayout ({
         redirect('/');
     }
 
-
     return (
         <>
         <Navbar />
         <div> this will be a navbar</div>
         {children}
         </>
-    )
-}
+    );
+};
