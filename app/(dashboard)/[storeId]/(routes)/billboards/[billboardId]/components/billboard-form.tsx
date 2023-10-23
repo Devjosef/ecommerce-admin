@@ -25,8 +25,6 @@ import {
 import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { ApiAlert } from "@/components/ui/api-alert";
-import { useOrigin } from "@/hooks/use-origin";
 import ImageUpload from "@/components/ui/image-upload";
 
 
@@ -46,7 +44,7 @@ export const BillboardForm: React.FC<BillboardformProps> = ({
 }) => {
     const params = useParams();
     const router = useRouter();
-    const origin = useOrigin();
+    
     
     
     const [open, setOpen] = useState(false);
@@ -74,6 +72,7 @@ export const BillboardForm: React.FC<BillboardformProps> = ({
     await axios.post(`/api/${params.storeId}/billboards`, data);
     }
     router.refresh();
+    router.push(`/${params.storeId}/billboards`)
     toast.success(toastMessage);
      } catch (error) {
     toast.error("Something went wrong.");
