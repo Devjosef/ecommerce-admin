@@ -2,7 +2,7 @@ import { format } from "date-fns";
 
 import prismadb from "@/lib/prismadb";
 import { BillboardClient } from "./client";
-import { BillboardColumn } from "./[billboardId]/components/columns";
+import { BillboardColumn } from "./components/columns";
 
 const BillboardsPage = async ({
     params

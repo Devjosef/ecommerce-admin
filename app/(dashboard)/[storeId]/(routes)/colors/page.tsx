@@ -2,7 +2,7 @@ import { format } from "date-fns";
 
 import prismadb from "@/lib/prismadb";
 import { ColorsClient } from "./client";
-import { ColorColumn} from "./[colorId]/components/columns";
+import { ColorColumn} from "./components/columns";
 
 const ColorsPage = async ({
     params

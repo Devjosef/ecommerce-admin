@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb";
-import { ColorForm } from "./components/color-form";
+import { ColorForm } from "../components/color-form";
 
 const ColorPage = async ({
     params

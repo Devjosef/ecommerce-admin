@@ -2,7 +2,7 @@ import { format } from "date-fns";
 
 import prismadb from "@/lib/prismadb";
 import { CategoryClient } from "./client";
-import { CategoryColumn} from "./[categoryId]/components/columns";
+import { CategoryColumn} from "./components/columns";
 
 const CategoriesPage = async ({
     params

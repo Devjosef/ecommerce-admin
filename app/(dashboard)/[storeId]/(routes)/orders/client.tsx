@@ -6,16 +6,16 @@ import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { SizeColumn, columns } from "./components/columns";
+import { BillboardColumn, columns } from "./[billboardId]/components/columns";
 import { DataTable } from "@/components/ui/data-table";
 import { ApiList } from "@/components/ui/api-list";
 
 
-interface SizesClientProps {
-   data: SizeColumn[]
+interface BillboardClientProps {
+   data: BillboardColumn[]
 }
 
-export const SizesClient: React.FC<SizesClientProps> = ({
+export const BillboardClient: React.FC<BillboardClientProps> = ({
    data
 }) => {
     const router = useRouter();
@@ -24,19 +24,19 @@ export const SizesClient: React.FC<SizesClientProps> = ({
     <>
     <div className="flex items-center justify-between">
      <Heading
-     title={`Sizes (${data.length})`}
-     description="Manage sizes for your store" 
+     title={`Billboards (${data.length})`}
+     description="Manage billboards for your store" 
      />
-     <Button onClick={() => router.push(`/${params.storeId}/sizes/new`)}>
+     <Button onClick={() => router.push(`/${params.storeId}/billboards/new`)}>
         <Plus className="mr-2 h-4 w-4" />
         Add New
      </Button>
     </div>
     <Separator />
-    <DataTable searchKey="name" columns={columns} data={data} />
-    <Heading title="API" description="API calls for Sizes" />
+    <DataTable searchKey="label" columns={columns} data={data} />
+    <Heading title="API" description="API calls for Billboards" />
     <Separator />
-    <ApiList entityName="sizes" entityIdName="sizeId" />
+    <ApiList entityName="billboards" entityIdName="billboardId" />
     </>
  )
 }
