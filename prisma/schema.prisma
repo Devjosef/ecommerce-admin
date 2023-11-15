@@ -18,7 +18,7 @@ model Store {
   userId     String
   billboards Billboard[] @relation("StoreToBillboard")
   categories Category[] @relation("StoreToCategory")
-  sizes     Size[] @relation("StoreToSize")
+  sizes      Size[] @relation("StoreToSize")
   colors     Color[] @relation("StoreToColor")
   products   Product[] @relation("StoreToProduct")
   orders     Order[] @relation("StoreToOrder")
