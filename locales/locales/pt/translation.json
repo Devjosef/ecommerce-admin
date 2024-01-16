@@ -1,3 +1,118 @@
+
 {
-    "bem-vindo": "Bem-vindo à sua loja!"
-   }
+    "common": {
+      "welcome": "Bem-vindo!",
+      "hello": "Olá",
+      "goodbye": "Adeus",
+      "seeYouLater": "Até logo"
+    },
+    "authentication": {
+      "loginSuccess": "Login bem-sucedido!",
+      "registrationSuccess": "Registro bem-sucedido!",
+      "loginError": "Falha no login. Por favor, verifique suas credenciais."
+     
+    },
+    "navigation": {
+      "home": "Início",
+      "profile": "Perfil",
+      "settings": "Configurações"
+      
+    },
+    "buttonsAndLinks": {
+      "submit": "Enviar",
+      "cancel": "Cancelar",
+      "learnMore": "Saiba mais",
+      "createAccount": "Criar conta"
+      
+    },
+    "formElements": {
+      "username": "Nome de usuário",
+      "email": "E-mail",
+      "password": "Senha",
+      "confirmPassword": "Confirmar senha",
+      "instructions": "Instruções"
+      
+    },
+    "errors": {
+      "validation": "Erro de validação. Por favor, verifique suas entradas.",
+      "server": "Ocorreu um erro. Por favor, tente novamente mais tarde."
+    
+    },
+    "success": {
+      "purchase": "Compra bem-sucedida!",
+      "profileUpdate": "Perfil atualizado com sucesso."
+      
+    },
+    "datesAndTimes": {
+      "dateFormat": "d MMM yyyy",
+      "timeFormat": "HH:mm"
+      
+    },
+    "currency": {
+      "currencySymbol": "R$",
+      "currencyFormat": "R$ {amount}"
+      
+    },
+    "unitsOfMeasurement": {
+      "weight": "kg",
+      "distance": "km"
+     
+    },
+    "confirmationDialogs": {
+      "confirmDelete": "Tem certeza de que deseja excluir este item?"
+      
+    },
+    "loadingStates": {
+      "loading": "Carregando..."
+      
+    },
+    "emptyStates": {
+      "noResults": "Nenhum resultado encontrado."
+     
+    },
+    "products": {
+      "description": "Descripción del producto"
+     
+    },
+    "promotions": {
+      "discountMessage": "¡Oferta especial! Descuento del 20% en todos los productos."
+     
+    },
+    "orderConfirmation": {
+      "successMessage": "¡Compra realizada con éxito! Detalles de la orden:"
+      
+    },
+    "reviews": {
+      "reviewSubmitted": "¡Reseña enviada con éxito! Gracias por compartir tu opinión."
+      
+    },
+    "notifications": {
+      "shipment": "Tu pedido ha sido enviado. Número de seguimiento: {trackingNumber}."
+      
+    },
+    "search": {
+      "suggestion": "Sugerencia de búsqueda"
+      
+    },
+    "payment": {
+      "successMessage": "Pago exitoso. Recibirás una confirmación por correo electrónico."
+      
+    },
+    "wishlist": {
+      "added": "Producto añadido a tu lista de deseos."
+      
+    },
+    "account": {
+      "created": "¡Cuenta creada con éxito! Inicia sesión para comenzar a comprar."
+      
+    },
+    "help": {
+      "chat": "Inicia un chat con nuestro equipo de soporte en vivo."
+      
+    },
+    "recommendations": {
+      "personalized": "Recomendaciones personalizadas para ti."
+      
+    }
+  }
+  

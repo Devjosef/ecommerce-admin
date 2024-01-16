@@ -1,23 +1,60 @@
 import { UserButton, auth } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 import StoreSwitcher from "@/components/store-switcher";
 import { MainNav } from "@/components/main-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
 import prismadb from "@/lib/prismadb";
 
-const Navbar = async () => {
-  const { userId } = auth();
+interface Store {
+  id: string;
+  name: string;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-  if (!userId) {
-    redirect('/sign-in');
+const Navbar = () => {
+  const router = useRouter();
+  const { userId } = auth();
+  const [stores, setStores] = useState<Store[]>([]); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!userId) {
+          router.push('/sign-in');
+          return;
+        }
+
+        const fetchedStores = await prismadb.store.findMany({
+          where: {
+            userId,
+          }
+        });
+
+        setStores(fetchedStores);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError("An error occurred while fetching data. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [userId, router]);
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
-  const stores = await prismadb.store.findMany({
-    where: {
-      userId,
-    }
-  });
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return ( 
     <div className="border-b">

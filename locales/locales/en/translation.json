@@ -1,3 +1,118 @@
 {
-    "welcome": "Welcome to your store"
-   }
+    "common": {
+      "welcome": "Welcome!",
+      "hello": "Hello",
+      "goodbye": "Goodbye",
+      "seeYouLater": "See you later"
+    },
+    "authentication": {
+      "loginSuccess": "Login successful!",
+      "registrationSuccess": "Registration successful!",
+      "loginError": "Login failed. Please check your credentials."
+      
+    },
+    "navigation": {
+      "home": "Home",
+      "profile": "Profile",
+      "settings": "Settings"
+      
+    },
+    "buttonsAndLinks": {
+      "submit": "Submit",
+      "cancel": "Cancel",
+      "learnMore": "Learn more",
+      "createAccount": "Create account"
+      
+    },
+    "formElements": {
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "instructions": "Instructions"
+      
+    },
+    "errors": {
+      "validation": "Validation error. Please check your inputs.",
+      "server": "An error occurred. Please try again later."
+      
+    },
+    "success": {
+      "purchase": "Purchase successful!",
+      "profileUpdate": "Profile updated successfully."
+      
+    },
+    "datesAndTimes": {
+      "dateFormat": "MMM d, yyyy",
+      "timeFormat": "h:mm a"
+      
+    },
+    "currency": {
+      "currencySymbol": "$",
+      "currencyFormat": "${amount}"
+      
+    },
+    "unitsOfMeasurement": {
+      "weight": "kg",
+      "distance": "km"
+      
+    },
+    "confirmationDialogs": {
+      "confirmDelete": "Are you sure you want to delete this item?"
+      
+    },
+    "loadingStates": {
+      "loading": "Loading..."
+      
+    },
+    "emptyStates": {
+      "noResults": "No results found."
+      
+    },
+    "products": {
+      "description": "Product description"
+      
+    },
+    "promotions": {
+      "discountMessage": "Special offer! 20% discount on all products."
+      
+    },
+    "orderConfirmation": {
+      "successMessage": "Purchase successful! Order details:"
+      
+    },
+    "reviews": {
+      "reviewSubmitted": "Review submitted successfully! Thank you for sharing your opinion."
+      
+    },
+    "notifications": {
+      "shipment": "Your order has been shipped. Tracking number: {trackingNumber}."
+      
+    },
+    "search": {
+      "suggestion": "Search suggestion"
+      
+    },
+    "payment": {
+      "successMessage": "Payment successful. You will receive a confirmation by email."
+      
+    },
+    "wishlist": {
+      "added": "Product added to your wishlist."
+      
+    },
+    "account": {
+      "created": "Account created successfully! Log in to start shopping."
+      
+    },
+    "help": {
+      "chat": "Start a chat with our live support team."
+      
+    },
+    "recommendations": {
+      "personalized": "Personalized recommendations for you."
+      
+    }
+  }
+  
+  

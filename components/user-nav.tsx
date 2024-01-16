@@ -1,7 +1,13 @@
-import { CreditCard, LogOut, PlusCircle, Settings, User } from "lucide-react"
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+import React from "react";
+import {
+  CreditCard,
+  LogOut,
+  PlusCircle,
+  Settings,
+  User,
+} from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 export function UserNav() {
   return (
@@ -35,25 +41,18 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <CreditCard className="mr-2 h-4 w-4" />
-            <span>Billing</span>
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            <span>New Team</span>
-          </DropdownMenuItem>
+          {[
+            { icon: <User className="mr-2 h-4 w-4" />, text: "Profile", shortcut: "⇧⌘P" },
+            { icon: <CreditCard className="mr-2 h-4 w-4" />, text: "Billing", shortcut: "⌘B" },
+            { icon: <Settings className="mr-2 h-4 w-4" />, text: "Settings", shortcut: "⌘S" },
+            { icon: <PlusCircle className="mr-2 h-4 w-4" />, text: "New Team" },
+          ].map((item, index) => (
+            <DropdownMenuItem key={index}>
+              {item.icon}
+              <span>{item.text}</span>
+              {item.shortcut && <DropdownMenuShortcut>{item.shortcut}</DropdownMenuShortcut>}
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
@@ -63,5 +62,5 @@ export function UserNav() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
