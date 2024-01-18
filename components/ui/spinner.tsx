@@ -1,7 +1,7 @@
+"use client";
+
 import React from "react";
 import cn from "classnames";
-
-
 
 export interface ISVGProps extends React.SVGProps<SVGSVGElement> {
   size?: number;

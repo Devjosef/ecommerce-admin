@@ -1,11 +1,14 @@
-import React from "react";
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+"use client"
+
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 
 interface OverviewProps {
-  data: { name: string; total: number }[];
-}
+  data: any[]
+};
 
-const Overview: React.FC<OverviewProps> = ({ data }) => {
+export const Overview: React.FC<OverviewProps> = ({
+  data
+}) => {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <BarChart data={data}>
@@ -26,7 +29,6 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
         <Bar dataKey="total" fill="#3498db" radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
-  );
+  )
 };
 
-export default Overview;
