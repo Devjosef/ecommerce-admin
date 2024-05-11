@@ -34,3 +34,38 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#sql
+
+# pscale dump files
+pscale_dump_*
+
+# SQL files
+*.sql
+
+# Log files
+*.log
+
+# Configuration files
+*.config
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+
+# IDE/Editor specific
+.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Database files
+*.db
+*.sqlite
+
+# Secret keys
+*.key
+
