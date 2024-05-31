@@ -2,6 +2,33 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 
 import prismadb from "@/lib/prismadb";
+import { Image } from "@prisma/client";
+
+// Extract validation logic into a utility function
+interface ProductInput {
+    name: string;
+    price: number; // Note: Prisma uses Decimal, but in TypeScript, we use number for handling decimals
+    categoryId: string;
+    colorId: string;
+    sizeId: string;
+    images: ImageInput[]; // Reflecting relation and ensuring it matches the Prisma model
+}
+
+interface ImageInput {
+    url: string; // Matching the Prisma schema for Image
+}
+
+const validateProductInput = (body: ProductInput) => {
+    const { name, price, categoryId, colorId, sizeId, images } = body;
+    const errors: string[] = [];
+    if (!name) errors.push("Name is required");
+    if (price === undefined || price === null) errors.push("Price is required"); // More precise check for price
+    if (!categoryId) errors.push("Category is required");
+    if (!colorId) errors.push("Color Id is required");
+    if (!sizeId) errors.push("Size id is required");
+    if (!images || images.length === 0) errors.push("At least one image is required");
+    return errors;
+};
 
 export async function POST(
     req: Request,
@@ -22,34 +49,15 @@ export async function POST(
         isArchived
        } = body;
         
-       if (!userId) {
+       const errors = validateProductInput(body);
+       if (errors.length > 0) {
+            return new NextResponse(JSON.stringify({ errors }), { status: 400 });
+        }
+    
+        if (!userId) {
             return new NextResponse("Unauthenticated", { status: 401});
         }
     
-        if (!name) {
-            return new NextResponse("Name is required", { status: 400 });
-        }
-
-        if(!images || !images.length) {
-            return new NextResponse("Images are required", { status: 400 });
-        }
-
-        if (!price) {
-            return new NextResponse("Price is required", { status: 400 });
-        }
-        
-        if (!categoryId) {
-            return new NextResponse("Category is required", { status: 400 });
-        }
-        
-        if (!sizeId) {
-            return new NextResponse("Size id is required", { status: 400 });
-        }
-
-        if (!colorId) {
-            return new NextResponse("Color Id is required", { status: 400 });
-        }
-
         if (!params.storeId) {
             return new NextResponse("Store id is required", { status: 400 });
         }
@@ -133,4 +141,4 @@ export async function POST(
             console.log('[PRODUCTS_GET]', error);
             return new NextResponse("Internal error", { status: 500});
         }
-    };
+    }

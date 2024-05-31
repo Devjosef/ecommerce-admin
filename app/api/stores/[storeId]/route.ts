@@ -8,9 +8,8 @@ export async function PATCH (
     { params }: { params: { storeId: string } }
 ) {
     try {
-        const session = auth.getSession();
-        const userId = session?.userId;
-
+        const { userId } = auth();
+        
         if (!userId) {
             return new NextResponse("Unauthenticated", { status: 401 });
         }
@@ -26,25 +25,20 @@ export async function PATCH (
             return new NextResponse("Store id is required", { status: 400 });
         }
 
-        const store = await prismadb.store.update({
-            where: {
-                id: params.storeId,
-                OR: [
-                    { userId },
-                    { collaborators: { some: { userId, role: { in: ['admin', 'owner'] } } } ]
-                ]
-            },
-            data: {
-                name
-            }
-        });
-
+        const store = await updateStore(params.storeId, userId, name);
         return NextResponse.json(store);
-} catch (error) {
+    } catch (error) {
         console.log('[STORE_PATCH]', error);
         return new NextResponse("Internal error", { status: 500 });
     }
 };
+
+async function updateStore(storeId: string, userId: string, newName: string) {
+    return prismadb.store.update({
+        where: { id: storeId, userId },
+        data: { name: newName }
+    });
+}
 
 export async function DELETE (
     req:Request,

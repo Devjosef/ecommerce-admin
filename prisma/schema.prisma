@@ -32,26 +32,33 @@ model StoreOwner {
   user  User  @relation(fields: [userId], references: [id])
 
   @@id([storeId, userId])
+  @@index([userId])
 }
 
 model User {
   id           String         @id @default(uuid())
   email        String         @unique
   name         String?
+  role         String
   stores       StoreOwner[]
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   Collaborator Collaborator[]
+  revenueShare Float
+  balance Float @default(0)
 }
 
 model Collaborator {
-  id           String @id @default(uuid())
+  id           String   @id @default(uuid())
   storeId      String
   userId       String
   role         String
   revenueShare Float
-  user         User   @relation(fields: [userId], references: [id])
-  store        Store  @relation(fields: [storeId], references: [id])
+  user         User     @relation(fields: [userId], references: [id])
+  store        Store    @relation(fields: [storeId], references: [id])
+
+  @@index([userId, storeId]) // Improved indexing for quicker lookups
+  @@index([storeId])
 }
 
 model Billboard {

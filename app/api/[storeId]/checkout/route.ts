@@ -1,101 +1,78 @@
-import Stripe from "stripe"
 import { NextResponse } from "next/server";
-
-import { stripe } from "@/lib/stripe";
 import prismadb from "@/lib/prismadb";
-import { auth } from "@clerk/nextjs";
+import { createStripeSession, calculateTotalRevenue, createLineItems } from "@/lib/checkoutUtils";
 
-const corsHeaders = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization", 
-};
+interface Collaborator {
+    id: string;
+    email: string;
+    name: string | null;
+    role: string;
+    createdAt: Date;
+    updatedAt: Date;
+    revenueShare: number; // Assuming revenueShare is a percentage stored as a number
+}
 
-export async function OPTIONS() {
-    return NextResponse.json({}, { headers: corsHeaders });
-};
-
-export async function POST (
-    req: Request,
-    { params }: { params: { storeId: string } }
-) {
+export async function POST(req: Request, { params }: { params: { storeId: string } }) {
     try {
         const { productIds } = await req.json();
-
-        if(!productIds || productIds.length === 0) {
-            return new NextResponse("Product ids are required", { status: 400 })
+        if (!productIds || productIds.length === 0) {
+            return new NextResponse("Product ids are required", { status: 400 });
         }
 
         const products = await prismadb.product.findMany({
-            where: {
-                id: {
-                    in: productIds
-                }
-            }
-        });
-        
-        const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
-
-        products.forEach((product) => {
-            line_items.push({
-                quantity: 1,
-                price_data: {
-                    currency: "USD",
-                    product_data: {
-                        name: product.name,
-                    },
-                    unit_amount: product.price.toNumber() * 100
-                }
-            });
+            where: { id: { in: productIds } }
         });
 
-        const order = await prismadb.order.create({
-            data: {
-                storeId: params.storeId,
-                isPaid: false,
-                orderItems: {
-                    create: productIds.map((productId: string) => ({
-                        product: {
-                            connect: {
-                                id: productId
-                            }
-                        }
-                    }))
-                }
-            }
-        });
+        if (products.length === 0) {
+            return new NextResponse("Products not found", { status: 404 });
+        }
 
-        // Calculate revenue shares here
+        const line_items = createLineItems(products.map(product => ({
+            name: product.name,
+            price: product.price.toNumber()
+        })));
+        const totalRevenue = calculateTotalRevenue(products.map(product => ({
+            price: product.price.toNumber()
+        })));
+
         const store = await prismadb.store.findUnique({
-            where: { id: params.storeId },
-            include: { collaborators: true }
+            where: { id: params.storeId }
         });
+        if (!store) {
+            return new NextResponse("Store not found", { status: 404 });
+        }
 
-        // Example logic to distribute revenue
-        store.collaborators.forEach(collaborator => {
-            const earnings = totalRevenue * (collaborator.revenueShare / 100);
-            // Logic to credit earnings to collaborator's account
-        });
+        // Handle collaborators and revenue sharing in a separate function or module
+        await handleCollaborators(store.id, totalRevenue);
 
-        const session = await stripe.checkout.sessions.create({
-            line_items,
-            mode: "payment",
-            billing_address_collection: "required",
-            phone_number_collection: {
-                enabled: true
-            },
-            success_url: `${process.env.FRONTEND_STORE_URL}/cart?success=1`,
-            cancel_url: `${process.env.FRONTEND_STORE_URL}/cart?canceled=1`,
-            metadata: {
-                orderId: order.id
-            },
-        });
-
-        return NextResponse.json({ url: session.url }, {
-            headers: corsHeaders
-        });
+        const stripeSession = await createStripeSession(line_items, store.id);
+        return NextResponse.json({ url: stripeSession.url });
     } catch (error) {
         console.log('[CHECKOUT_POST]', error);
         return new NextResponse("Internal error", { status: 500 });
     }
-};
+}
+async function handleCollaborators(storeId: string, totalRevenue: number) {
+    const collaborators: Collaborator[] = await prismadb.user.findMany({
+        where: { stores: { some: { storeId: storeId } }, role: "collaborator" },
+        select: {
+            id: true,
+            email: true,
+            name: true,
+            role: true,
+            createdAt: true,
+            updatedAt: true,
+            revenueShare: true
+        }
+    });
+
+    collaborators.forEach(async collaborator => {
+        const earnings = totalRevenue * (collaborator.revenueShare / 100);
+        await prismadb.user.update({
+            where: { id: collaborator.id },
+            data: {
+                balance: { increment: earnings }  
+            }
+        });
+    });
+}
