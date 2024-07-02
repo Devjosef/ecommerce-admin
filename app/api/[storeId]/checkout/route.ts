@@ -52,27 +52,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
         return new NextResponse("Internal error", { status: 500 });
     }
 }
-async function handleCollaborators(storeId: string, totalRevenue: number) {
-    const collaborators: Collaborator[] = await prismadb.user.findMany({
-        where: { stores: { some: { storeId: storeId } }, role: "collaborator" },
-        select: {
-            id: true,
-            email: true,
-            name: true,
-            role: true,
-            createdAt: true,
-            updatedAt: true,
-            revenueShare: true
-        }
-    });
 
-    collaborators.forEach(async collaborator => {
-        const earnings = totalRevenue * (collaborator.revenueShare / 100);
-        await prismadb.user.update({
-            where: { id: collaborator.id },
-            data: {
-                balance: { increment: earnings }  
-            }
-        });
-    });
+function handleCollaborators(id: string, totalRevenue: number) {
+    throw new Error("Function not implemented.");
 }

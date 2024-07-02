@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs';
-
-import Navbar from '@/components/navbar'
+import Navbar from '@/components/navbar';
 import prismadb from '@/lib/prismadb';
 
 export default async function DashboardLayout({
@@ -22,7 +21,7 @@ export default async function DashboardLayout({
       id: params.storeId,
       userId,
     }
-   });
+  });
 
   if (!store) {
     redirect('/');
@@ -31,6 +30,10 @@ export default async function DashboardLayout({
   return (
     <>
       <Navbar />
+      <div className="p-4">
+        <a href={`/${params.storeId}/privacy-policy`} className="text-blue-500 underline">Privacy Policy</a>
+        <a href={`/${params.storeId}/data-request`} className="text-blue-500 underline ml-4">Manage Your Data</a>
+      </div>
       {children}
     </>
   );

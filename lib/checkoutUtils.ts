@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { stripe } from '@/lib/stripe';
 
 export const calculateTotalRevenue = (products: { price: number }[]): number => 
     products.reduce((acc: number, product: { price: number }) => acc + product.price * 100, 0);
@@ -14,12 +15,8 @@ export const createLineItems = (products: { name: string, price: number }[]) =>
             unit_amount: Math.round(product.price * 100)
         }
     }));
+
 export const createStripeSession = async (lineItems: Stripe.Checkout.SessionCreateParams.LineItem[], storeId: string) => {
-    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-    if (!stripeSecretKey) {
-        throw new Error("Stripe secret key is undefined.");
-    }
-    const stripe = new Stripe(stripeSecretKey, { apiVersion: '2023-10-16' });
     return stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: lineItems,
