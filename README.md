@@ -1,1 +1,1 @@
-migrating database, refactoring the entire project. still refactoring
+manually fixed the database migration into sql.
