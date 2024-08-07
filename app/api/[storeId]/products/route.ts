@@ -34,9 +34,13 @@ export async function POST(
     req: Request,
     { params }: {params: {storeId: string } }
 ) {
+    console.log('POST request received:', req.method, req.body, params);
+    
     try {
        const { userId } = auth();
        const body = await req.json();
+       console.log('User ID:', userId);
+       console.log('Request body:', body);
 
       const { 
         name,
@@ -93,6 +97,7 @@ export async function POST(
             }
         });
 
+        console.log('Product created:', product);
         return NextResponse.json(product);
     } catch (error) {
         console.log('[PRODUCTS_POST]', error);

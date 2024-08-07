@@ -7,8 +7,11 @@ export async function PATCH (
     req:Request,
     { params }: { params: { storeId: string } }
 ) {
+    console.log('PATCH request received:', req.method, req.body, params);
+    
     try {
         const { userId } = auth();
+        console.log('User ID:', userId);
         
         if (!userId) {
             return new NextResponse("Unauthenticated", { status: 401 });
@@ -16,6 +19,7 @@ export async function PATCH (
 
         const body = await req.json();
         const { name } = body;
+        console.log('Request body:', body);
             
         if (!name) {
             return new NextResponse("Name is required", { status: 400 });
@@ -26,6 +30,7 @@ export async function PATCH (
         }
 
         const store = await updateStore(params.storeId, userId, name);
+        console.log('Store updated:', store);
         return NextResponse.json(store);
     } catch (error) {
         console.log('[STORE_PATCH]', error);
@@ -44,8 +49,11 @@ export async function DELETE (
     req:Request,
     { params }: { params: { storeId: string } }
 ) {
+    console.log('DELETE request received:', req.method, req.body, params);
+    
     try {
         const { userId } = auth();
+        console.log('User ID:', userId);
        
          if (!userId) {
             return new NextResponse("Unauthenticated", { status: 401 });
@@ -62,6 +70,7 @@ export async function DELETE (
             },
         });
 
+        console.log('Store deleted:', store);
         return NextResponse.json(store);
 
     } catch (error) {

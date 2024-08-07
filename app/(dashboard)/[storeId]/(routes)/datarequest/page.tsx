@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const DataRequestForm: React.FC = () => {
+const DataRequestForm: React.FC<{ storeId: string }> = ({ storeId }) => {
   const [userId, setUserId] = useState<string>('');
   const [userData, setUserData] = useState<any>(null);
   const [message, setMessage] = useState<string>('');
 
   const handleDataAccess = async () => {
     try {
-      const response = await axios.post('/api/dataAccess', { userId });
+      const response = await axios.get(`/api/${storeId}/dataaccess`, { params: { userId } });
       setUserData(response.data);
       setMessage('User data retrieved successfully');
     } catch (error) {
@@ -18,7 +18,7 @@ const DataRequestForm: React.FC = () => {
 
   const handleDataDeletion = async () => {
     try {
-      await axios.delete('/api/dataDeletion', { data: { userId } });
+      await axios.delete(`/api/${storeId}/datadeletion`, { data: { userId } });
       setUserData(null);
       setMessage('User data deleted successfully');
     } catch (error) {
@@ -52,11 +52,11 @@ const DataRequestForm: React.FC = () => {
   );
 };
 
-const DataRequestPage: React.FC = () => {
+const DataRequestPage: React.FC<{ params: { storeId: string } }> = ({ params }) => {
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <DataRequestForm />
+        <DataRequestForm storeId={params.storeId} />
       </div>
     </div>
   );

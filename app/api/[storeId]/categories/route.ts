@@ -7,9 +7,13 @@ export async function POST(
     req: Request,
     { params }: {params: {storeId: string } }
 ) {
+    console.log('POST request received:', req.method, req.body, params);
+    
     try {
        const { userId } = auth();
        const body = await req.json();
+       console.log('User ID:', userId);
+       console.log('Request body:', body);
 
        const { name, billboardId } = body;
         
@@ -48,6 +52,7 @@ export async function POST(
             }
         });
 
+        console.log('Category created:', category);
         return NextResponse.json(category);
     } catch (error) {
         console.log('[CATEGORIES_POST]', error);
@@ -60,6 +65,8 @@ export async function POST(
         req: Request,
         { params }: {params: {storeId: string } }
     ) {
+        console.log('GET request received:', req.method, params);
+        
         try {
           if (!params.storeId) {
                 return new NextResponse("Store id is required", { status: 400});
@@ -71,6 +78,7 @@ export async function POST(
                 },
             });
     
+            console.log('Categories retrieved:', categories);
             return NextResponse.json(categories);
         } catch (error) {
             console.log('[CATEGORIES_GET]', error);

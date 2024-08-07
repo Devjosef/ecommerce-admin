@@ -31,8 +31,8 @@ export default async function DashboardLayout({
     <>
       <Navbar />
       <div className="p-4">
-        <a href={`/${params.storeId}/privacy-policy`} className="text-blue-500 underline">Privacy Policy</a>
-        <a href={`/${params.storeId}/data-request`} className="text-blue-500 underline ml-4">Manage Your Data</a>
+        <a href={`/dashboard/${params.storeId}/privacypolicy`} className="text-blue-500 underline">Privacy Policy</a>
+        <a href={`/dashboard/${params.storeId}/data-request`} className="text-blue-500 underline ml-4">Manage Your Data</a>
       </div>
       {children}
     </>
